@@ -40,7 +40,23 @@ app.use(methodOverride(function (req, res) {
 // importando as @routes
 const routes = require('../app/routes/routes');
 // definindo que as @routes recebem por parametro o @app
-routes(app);    
+routes(app);
+
+// middleware para quando haja um erro 404 seja redirecionado para a página de erro
+app.use(function(req, resp, next) {
+// resposta com o status e import da pagina resultado
+    return resp.status(404).marko(
+        require('../app/views/base/erros/404.marko')
+    );
+});
+
+// middleware para quando haja um erro 500 seja redirecionado para a página de erro
+app.use(function(error, req, resp, next) {
+// resposta com o status e import da pagina resultado
+    return resp.status(500).marko(
+        require('../app/views/base/erros/500.marko')
+    );
+});
 
 // exportando o @app como um modulo
 module.exports = app;
