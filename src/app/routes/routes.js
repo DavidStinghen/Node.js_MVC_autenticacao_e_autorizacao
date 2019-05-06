@@ -45,21 +45,24 @@ module.exports = (app) => {
 // validação dos parametros de cadastro
         [
 // verifica com a função @check do @express-validator com o metodo @isLength se o titulo tem no minimo 5 caracteres
-        check('titulo').isLength({ min: 5 }),
+        check('titulo').isLength({ min: 5 }).withMessage('O titulo deve ter no minimo 5 caracteres!'),
 // verifica com a função @check do @express-validator com o metodo @isCurrency se o preco tem valor monetário
-        check('preco').isCurrency()
+        check('preco').isCurrency().withMessage('o preço precisa ter um valor monetário válido!')
         ], 
         function(req, resp) {
 // Iniciado uma instância do objeto @LivroDao com parametro do banco de dados @db
                 const livroDao = new LivroDao(db);
 // chamado a função @validationResult de @express-validator que verifica os erros da validação
-                const errors = validationResult(req);
+                const error = validationResult(req);
 // verifica se a verificação dos erros não está vazia pois se não estiver significa que existe um erro
-                if (!errors.isEmpty()) {
+                if (!error.isEmpty()) {
 // retorno do erro vai ser o redirecionamento para o formulário original
                         return resp.marko(
                                 require('../views/livros/form/form.marko'),
-                                { livro : {} }
+                                { livro : {},
+// passando a informação de quais foram os erros de validação que ocorreram
+                                  errorValidation: error.array()
+                                }
                         )
                 }
 // Chamado uma função de adição @adiciona do objeto @LivroDao como resposta a Promise declarada em @LivroDao
