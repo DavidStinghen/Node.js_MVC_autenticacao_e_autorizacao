@@ -1,3 +1,4 @@
+const { check, validationResult } = require('express-validator/check');
 const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
 
@@ -40,17 +41,35 @@ module.exports = (app) => {
     });
 
 // rota para adicionar novos livros
-    app.post('/livros', function(req, resp) {
+    app.post('/livros', 
+// validação dos parametros de cadastro
+        [
+// verifica com a função @check do @express-validator com o metodo @isLength se o titulo tem no minimo 5 caracteres
+        check('titulo').isLength({ min: 5 }),
+// verifica com a função @check do @express-validator com o metodo @isCurrency se o preco tem valor monetário
+        check('preco').isCurrency()
+        ], 
+        function(req, resp) {
 // Iniciado uma instância do objeto @LivroDao com parametro do banco de dados @db
-        const livroDao = new LivroDao(db);
+                const livroDao = new LivroDao(db);
+// chamado a função @validationResult de @express-validator que verifica os erros da validação
+                const errors = validationResult(req);
+// verifica se a verificação dos erros não está vazia pois se não estiver significa que existe um erro
+                if (!errors.isEmpty()) {
+// retorno do erro vai ser o redirecionamento para o formulário original
+                        return resp.marko(
+                                require('../views/livros/form/form.marko'),
+                                { livro : {} }
+                        )
+                }
 // Chamado uma função de adição @adiciona do objeto @LivroDao como resposta a Promise declarada em @LivroDao
 // a função @adiciona recebe como parametro o corpo (@body) do formulario de adição
-        livroDao.adiciona(req.body)
+                livroDao.adiciona(req.body)
 // caso tudo ocorra corretamente a resposta vai ser um redirecionamento para (/livros) atualizada
 // o @redirect redireciona de uma página para outra
-                .then(resp.redirect('/livros'))
+                        .then(resp.redirect('/livros'))
 // bloco catch para caso haja algum erro esse erro seja declarado no console
-                .catch(error => console.log(error));
+                        .catch(error => console.log(error));
     });
 
 // rota para deletar o livro
