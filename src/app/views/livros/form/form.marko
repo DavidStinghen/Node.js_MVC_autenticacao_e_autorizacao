@@ -8,12 +8,6 @@
     <body>
         <header class="cabecalhoPrincipal">
 
-            <div if(data.errorValidation)>
-                <div class="alert alert-danger" for(error in data.errorValidation)>
-                    ${error.param} - ${error.msg}
-                </div>
-            </div>
-
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-4">
@@ -30,6 +24,12 @@
         <main class="conteudoPrincipal">
             <div class="container">
                 <h1>Cadastro de livros</h1>
+
+                <div if(data.errorValidation)>
+                    <div class="alert alert-danger" for(error in data.errorValidation)>
+                        ${error.param} - ${error.msg}
+                    </div>
+                </div>
                 
                 <form action="/livros" method="post">
 
