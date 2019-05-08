@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator/check');
 const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
 
+const templates = require('../views/templates');
+
 class LivroController {
 
         //encapsulamento de rotas
@@ -25,7 +27,7 @@ class LivroController {
                 // Declarando que a resposta da promise vai usar como resposta um arquivo .marko
                                 .then(livros => resp.marko(
                 // Importando o arquivo .marko que contem o HTML da página
-                                        require('../views/livros/lista/lista.marko'),
+                                        templates.livros.lista,
                 // Informando qual é o tipo da lista
                                         { livros:livros }
                                 ))
@@ -40,7 +42,7 @@ class LivroController {
                         resp.marko(
                 // importando o arquivo .marko
                 // segundo parametro, arquivo json 
-                                require('../views/livros/form/form.marko'), { livro: {}});
+                                templates.livros.form, { livro: {}});
                         };
         }
 
@@ -56,7 +58,7 @@ class LivroController {
                                 .then(livro => 
                                         resp.marko(
                 // importação do arquivo .marko
-                                        require('../views/livros/form/form.marko'),
+                                        templates.livros.form,          
                                         { livro:livro }
                                         )
                                 )
@@ -75,7 +77,7 @@ class LivroController {
                                 if (!error.isEmpty()) {
                 // retorno do erro vai ser o redirecionamento para o formulário original
                                         return resp.marko(
-                                                require('../views/livros/form/form.marko'),
+                                                templates.livros.form,
                                                 { livro : req.body,
                 // passando a informação de quais foram os erros de validação que ocorreram
                                                 errorValidation: error.array()
