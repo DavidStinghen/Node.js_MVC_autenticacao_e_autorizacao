@@ -1,10 +1,10 @@
-const { check} = require('express-validator/check');
-
 const LivroController = require('../controller/livro-controller');
 const livroController = new LivroController();
 
 const BaseController = require('../controller/base-controller');
 const baseController = new BaseController();
+
+const Livro = require('../model/livro');
 
 // exportando a função @app como um modulo
 module.exports = (app) => {
@@ -23,13 +23,7 @@ module.exports = (app) => {
 
     // rota para adicionar novos livros
     // validação dos parametros de cadastro
-    app.post(livrosRoutes.lista, [
-                // verifica com a função @check do @express-validator com o metodo @isLength se o titulo tem no minimo 5 caracteres
-                check('titulo').isLength({ min: 5 }).withMessage('O titulo deve ter no minimo 5 caracteres!'),
-                // verifica com a função @check do @express-validator com o metodo @isCurrency se o preco tem valor monetário
-                check('preco').isCurrency().withMessage('o preço precisa ter um valor monetário válido!')
-        ],
-        livroController.cadastra()
+    app.post(livrosRoutes.lista, Livro.validacoes(), livroController.cadastra()
     );
 
     // rota para o formulario de alterar o livro
