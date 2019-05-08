@@ -26,6 +26,6 @@ module.exports = (app) => {
     // rota para deletar o livro
     // usado o verbo delete para apagar
     // criado a variavel id para que qualquer coisa depois de (/livros/) seja salvo na variavel criada, ou seja, passar o id do livro para ser deletado
-    app.delete(livrosRoutes.delecao, livroController.remove());
+    app.get(livrosRoutes.delecao, livroController.remove());
 
-}
+};
