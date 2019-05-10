@@ -37,6 +37,11 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
+// chamada a camada de controle de autenticação da api
+const sessaoAutenticacao = require('./sessao-autenticacao');
+// passando o objeto app para a sessão de autenticação
+sessaoAutenticacao(app);
+
 // importando as @routes
 const routes = require('../app/routes/routes');
 // definindo que as @routes recebem por parametro o @app

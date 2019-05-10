@@ -1,4 +1,5 @@
 module.exports = {
     base: require('./base'),
-    livros: require('./livros')
+    livros: require('./livros'),
+    login: require('./login')
 };

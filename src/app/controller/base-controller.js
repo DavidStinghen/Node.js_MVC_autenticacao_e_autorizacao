@@ -4,7 +4,8 @@ class BaseController {
 
     static routes() {
         return {
-            home:'/'
+            home:'/',
+            login:'/login'
         };
     }
 
@@ -15,6 +16,22 @@ class BaseController {
             );
         };
     }
+
+    login() {
+        return function(req, resp) {
+            resp.marko(
+                templates.base.login
+            );
+        };
+    }
+
+    efetuaLogin() {
+        return function(req, resp) {
+
+        }
+    }
+
+
 }
 
 module.exports = BaseController;
