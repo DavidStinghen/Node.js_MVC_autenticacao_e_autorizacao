@@ -79,5 +79,9 @@ module.exports = (app) => {
     // inicializando a  sessão
     app.use(passport.session());
 
-    
+    // middleware para injeção direta
+    app.use(function(req, resp, next) {
+        req.passport = passport;
+        next();
+    });
 };
