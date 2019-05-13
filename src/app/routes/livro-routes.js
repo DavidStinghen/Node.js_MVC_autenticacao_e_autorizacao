@@ -3,10 +3,23 @@ const livroController = new LivroController();
 
 const Livro = require('../model/livro');
 
+const BaseController = require('../controller/base-controller');
+
 // exportando a função @app como um modulo
 module.exports = (app) => {
 
     const livrosRoutes = LivroController.routes();
+
+    // middleware para rotas que precisam de autenticação
+    app.use(livrosRoutes.autenticadas, function(req, resp, next) {
+        // se foi autenticado então continua com o processo
+        if (req.isAuthenticated()) {
+            next();
+        // caso não esteja logado redireciona para página de login
+        } else {
+            resp.redirect(BaseController.routes().login)
+        }
+    });
 
     // Rota para (/livros)
     app.get(livrosRoutes.lista, livroController.lista());

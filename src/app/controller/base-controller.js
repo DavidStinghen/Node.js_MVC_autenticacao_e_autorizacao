@@ -1,5 +1,5 @@
 const templates = require('../views/templates');
-const LivroControlador = require('./livro-controller');
+const LivroController = require('./livro-controller');
 
 class BaseController {
 
@@ -59,7 +59,7 @@ class BaseController {
                         }
                         
                         // caso não haja erros redirecionar para a lista de livros
-                        return resp.redrect(LivroControlador.rotas().lista);
+                        return resp.redirect(LivroController.routes().lista);
                     });
 
                 })(req, resp, next);  

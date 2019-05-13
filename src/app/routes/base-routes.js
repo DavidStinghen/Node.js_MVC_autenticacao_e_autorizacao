@@ -11,8 +11,8 @@ module.exports = (app) => {
     // rotas agrupadas para login
     app.route(baseRoutes.login)
         // rota para o formulário de login
-        .get(beseController.login())
+        .get(baseController.login())
         // rota para efetuar o logins
-        .post(basecontroller.efetuaLogin());
+        .post(baseController.efetuaLogin());
 
 };

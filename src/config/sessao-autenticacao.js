@@ -80,7 +80,7 @@ module.exports = (app) => {
     app.use(passport.session());
 
     // middleware para injeção direta
-    app.use(function(req, resp, next) {
+    app.use(function (req, resp, next) {
         req.passport = passport;
         next();
     });

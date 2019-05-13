@@ -10,6 +10,7 @@ class LivroController {
         //encapsulamento de rotas
         static routes() {
                 return {
+                        autenticadas:'/livros*',        
                         lista:'/livros',
                         cadastro:'/livros/form',
                         edicao:'/livros/form/:id',
